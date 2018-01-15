@@ -415,44 +415,84 @@ hr,
 /*about页*/
 .article{
     &.well{
-        .post-info{
-            ul{
-                li{
-                    display: inline-block;
-                    margin-right: 10px;
-                }
-            }
-        }
-        .content{
-            p{
-                display: inline-block;
-                margin: 0;
-                img{
-                    width: auto;
-                    max-width: 100%;
-                }
-            }
-        }
-        .post-excerpt{
-            p{
-                display: inline-block;
-                margin: 0;
-                img{
-                    float: left;
-                    margin-right: 15px;
-                }
-            }
+        &.well-nopadding{
+            padding: 0;
+            height: 500px;
             img{
-                max-width: 150px;
-                max-height: 150px;
-                padding: 4px;
-                line-height: 1.42857143;
-                background-color: #fff;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-                -webkit-transition: all .2s ease-in-out;
-                -o-transition: all .2s ease-in-out;
-                transition: all .2s ease-in-out;
+                border-radius: 4px 4px 0 0;
+                width: 50%;
+            }
+            .authorinfo{
+                float: right;
+                width: 50%;
+                height: 100%;
+                vertical-align: top;
+                padding: 19px;
+                font-size: 18px;
+                .autograph{
+                    font-size: 20px;
+                    font-family: '楷体','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                    margin: 10px 0;
+                }
+                .authorrow{
+                    padding-bottom: 0;
+                    span{
+                        &:nth-child(1){
+                            width: 100px;
+                            display: inline-block;
+                            vertical-align: top;
+                            font-family: "黑体",'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                        }
+                        &:nth-child(2){
+                            font-family: '楷体','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media (max-width: 992px){
+    .article{
+        &.well{
+            &.well-nopadding{
+                height: auto;
+                img{
+                    border-radius: 4px 4px 0 0;
+                    width: 100%;
+                    height: auto;
+                }
+                .authorinfo{
+                    float: none;
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        }
+    }
+}
+@media (min-width: 992px){
+    .article{
+        &.well{
+            &.well-nopadding{
+                .authorinfo{
+                    .autograph{
+                        margin: 10px 0 20px 0;
+                    }
+                }
+            }
+        }
+    }
+}
+@media (min-width: 1200px){
+    .article{
+        &.well{
+            &.well-nopadding{
+                .authorinfo{
+                    .autograph{
+                        margin: 10px 0 20px 0;
+                    }
+                }
             }
         }
     }
