@@ -4911,35 +4911,61 @@ pre .javascript .function {
   border-bottom: 1px solid #dadada;
 }
 /*about页*/
-.article.well .post-info ul li {
+.article.well.well-nopadding {
+  padding: 0;
+  height: 500px;
+}
+.article.well.well-nopadding img {
+  border-radius: 4px 4px 0 0;
+  width: 50%;
+}
+.article.well.well-nopadding .authorinfo {
+  float: right;
+  width: 50%;
+  height: 100%;
+  vertical-align: top;
+  padding: 19px;
+  font-size: 18px;
+}
+.article.well.well-nopadding .authorinfo .autograph {
+  font-size: 20px;
+  font-family: '楷体', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin: 10px 0;
+}
+.article.well.well-nopadding .authorinfo .authorrow {
+  padding-bottom: 0;
+}
+.article.well.well-nopadding .authorinfo .authorrow span:nth-child(1) {
+  width: 100px;
   display: inline-block;
-  margin-right: 10px;
+  vertical-align: top;
+  font-family: "黑体", 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-.article.well .content p {
-  display: inline-block;
-  margin: 0;
+.article.well.well-nopadding .authorinfo .authorrow span:nth-child(2) {
+  font-family: '楷体', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-.article.well .content p img {
-  width: auto;
-  max-width: 100%;
+@media (max-width: 992px) {
+  .article.well.well-nopadding {
+    height: auto;
+  }
+  .article.well.well-nopadding img {
+    border-radius: 4px 4px 0 0;
+    width: 100%;
+    height: auto;
+  }
+  .article.well.well-nopadding .authorinfo {
+    float: none;
+    width: 100%;
+    height: auto;
+  }
 }
-.article.well .post-excerpt p {
-  display: inline-block;
-  margin: 0;
+@media (min-width: 992px) {
+  .article.well.well-nopadding .authorinfo .autograph {
+    margin: 10px 0 20px 0;
+  }
 }
-.article.well .post-excerpt p img {
-  float: left;
-  margin-right: 15px;
-}
-.article.well .post-excerpt img {
-  max-width: 150px;
-  max-height: 150px;
-  padding: 4px;
-  line-height: 1.42857143;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  -webkit-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+@media (min-width: 1200px) {
+  .article.well.well-nopadding .authorinfo .autograph {
+    margin: 10px 0 20px 0;
+  }
 }
