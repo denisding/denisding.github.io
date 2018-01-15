@@ -411,3 +411,49 @@ hr,
 @import "_partial/lightbox";
 
 @import "_plugin/valine";
+
+/*about页*/
+.article{
+    .well{
+        .post-info{
+            ul{
+                li{
+                    display: inline-block;
+                    margin-right: 10px;
+                }
+            }
+        }
+        .content{
+            p{
+                display: inline-block;
+                margin: 0;
+                img{
+                    width: auto;
+                    max-width: 100%;
+                }
+            }
+        }
+        .post-excerpt{
+            p{
+                display: inline-block;
+                margin: 0;
+                img{
+                    float: left;
+                    margin-right: 15px;
+                }
+            }
+            img{
+                max-width: 150px;
+                max-height: 150px;
+                padding: 4px;
+                line-height: 1.42857143;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                -webkit-transition: all .2s ease-in-out;
+                -o-transition: all .2s ease-in-out;
+                transition: all .2s ease-in-out;
+            }
+        }
+    }
+}
