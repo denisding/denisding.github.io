@@ -4910,3 +4910,36 @@ pre .javascript .function {
 #comments.vcomment .vcard section {
   border-bottom: 1px solid #dadada;
 }
+/*about页*/
+.article .well .post-info ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+.article .well .content p {
+  display: inline-block;
+  margin: 0;
+}
+.article .well .content p img {
+  width: auto;
+  max-width: 100%;
+}
+.article .well .post-excerpt p {
+  display: inline-block;
+  margin: 0;
+}
+.article .well .post-excerpt p img {
+  float: left;
+  margin-right: 15px;
+}
+.article .well .post-excerpt img {
+  max-width: 150px;
+  max-height: 150px;
+  padding: 4px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
