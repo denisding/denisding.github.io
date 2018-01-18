@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>浅析 `Lua` 中游戏脚本语言之魔兽世界 | 熊战天下 | 生而无畏，方可战天下</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="魔兽世界,游戏,脚本,宏,插件,外挂,外挂开发,Lua,转载">
+    <meta name="description" content="本文转载自：http://blog.csdn.net/cbbbc/article/details/45126991\原文出处不详  Lua  介绍 Lua 游戏脚本语言之魔兽世界是本文要介绍的内容，随着《魔兽世界》(以下简称 WOW)在世界范围内流行，脚本渐渐被人们所熟知。由于 WOW 强大的自定义界面系统， Lua 这一脚本语言一举成名。 其实早在 Lua 脚本语言被大众所熟知以前，游戏业内人">
+<meta name="keywords" content="魔兽世界,游戏,脚本,宏,插件,外挂,外挂开发,Lua,转载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析 `Lua` 中游戏脚本语言之魔兽世界">
+<meta property="og:url" content="http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/index.html">
+<meta property="og:site_name" content="熊战天下">
+<meta property="og:description" content="本文转载自：http://blog.csdn.net/cbbbc/article/details/45126991\原文出处不详  Lua  介绍 Lua 游戏脚本语言之魔兽世界是本文要介绍的内容，随着《魔兽世界》(以下简称 WOW)在世界范围内流行，脚本渐渐被人们所熟知。由于 WOW 强大的自定义界面系统， Lua 这一脚本语言一举成名。 其实早在 Lua 脚本语言被大众所熟知以前，游戏业内人">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-01-18T08:21:57.066Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析 `Lua` 中游戏脚本语言之魔兽世界">
+<meta name="twitter:description" content="本文转载自：http://blog.csdn.net/cbbbc/article/details/45126991\原文出处不详  Lua  介绍 Lua 游戏脚本语言之魔兽世界是本文要介绍的内容，随着《魔兽世界》(以下简称 WOW)在世界范围内流行，脚本渐渐被人们所熟知。由于 WOW 强大的自定义界面系统， Lua 这一脚本语言一举成名。 其实早在 Lua 脚本语言被大众所熟知以前，游戏业内人">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.png)">
+      <div class="brand">
+        <a href="/about" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">丁竹</h5>
+          <a href="mailto:yyguangzheng@163.com" title="yyguangzheng@163.com" class="mail">yyguangzheng@163.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                日志
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-link"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/denisding" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">浅析 `Lua` 中游戏脚本语言之魔兽世界</div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">浅析 `Lua` 中游戏脚本语言之魔兽世界</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-01-18T06:04:00.000Z" itemprop="datePublished" class="page-time">
+  2018年01月18日
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/gameprogramming/">游戏编程</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/gameprogramming/wow/">魔兽世界</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Lua-介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">Lua  介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#脚本的现状"><span class="post-toc-number">2.</span> <span class="post-toc-text">脚本的现状</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#脚本的优势"><span class="post-toc-number">3.</span> <span class="post-toc-text">脚本的优势</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#易于学习-代码可维护性强"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">易于学习,代码可维护性强</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#降低开发成本"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">降低开发成本</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#形成人才壁垒"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">形成人才壁垒</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#脚本的发展趋势"><span class="post-toc-number">4.</span> <span class="post-toc-text">脚本的发展趋势</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-2018-01-18-about-lua-in-wow"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">浅析 `Lua` 中游戏脚本语言之魔兽世界</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018年01月18日 14:04:00" datetime="2018-01-18T06:04:00.000Z"  itemprop="datePublished">2018年01月18日</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/gameprogramming/">游戏编程</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/gameprogramming/wow/">魔兽世界</a></li></ul></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>本文转载自：<a href="http://blog.csdn.net/cbbbc/article/details/45126991" target="_blank" rel="noopener">http://blog.csdn.net/cbbbc/article/details/45126991</a>\<br>原文出处不详</p>
+</blockquote>
+<h2 id="Lua-介绍"><a href="#Lua-介绍" class="headerlink" title="Lua  介绍"></a><code>Lua</code>  介绍</h2><p> <code>Lua</code> 游戏脚本语言之魔兽世界是本文要介绍的内容，随着《魔兽世界》(以下简称 <code>WOW</code>)在世界范围内流行，脚本渐渐被人们所熟知。由于 <code>WOW</code> 强大的自定义界面系统， <code>Lua</code> 这一脚本语言一举成名。</p>
+<p>其实早在 <code></code>Lua<code></code> 脚本语言被大众所熟知以前，游戏业内人士就已经开始使用脚本来开发游戏了。我们熟悉的很多国内的网络游戏大都运用了脚本开发，比如网游的长青树“梦幻西游和《大话西游2就大量应用了脚本技术。特别是《大话西游2》，其实现基于 <code>Lua</code> 脚本游戏开发的时间要远早于《魔兽世界》。在脚本技术上，国内与国外其实是站在同一起跑线上的，并不存在什么差距，这也为国内游戏产业赶超国外游戏产业提供了强有力的技术保证。</p>
+<p>在单机游戏时代，脚本这个词几乎很少出现，那么，为什么在网络游戏时代它却成了业界的宠儿呢?原因是多方面的。</p>
+<p>单机游戏时代，无论游戏主机还是PC机，它们的性能都非常低下，从而需要具有较高执行效率的编译型语言对机器的性能进行“压榨”。随着科技发展和硬件性能的不断提升，脚本逐渐被开发者所接受并利用，但这并不是脚本流行起来的决定性因素，真正的原因还在于游戏市场有这方面的需求。</p>
+<p>网络游戏时代的市场竞争激烈、变化莫测，如果延用单机时代一年半载才出一个新版本的开发方式，必然会被游戏行业激烈的市场竞争所淘汰。正是这种游戏市场需求旺盛和开发工具效率底下之间的矛盾，促使脚本语言迅速地发展起来。脚本的兴起使得传统编译型语言( <code>C/C++</code> )的性能优势在硬件功效大幅攀升的今天已经不复存在。</p>
+<p>除了市场和硬件这两个因素之外，还有一点我们不能忽略。那就是用 <code>C/C++</code> 进行游戏开发的高成本和高项目风险。随着 <code>java/.net</code> 逐渐流行，学习 <code>C/C++</code> 编程语言的人越来越少，而网络游戏市场的需求却越来越庞大，在程序人才大量匮乏的情况下，造成了 <code>C/C++</code> 人才的高成本。即便是有能力雇佣大量 <code>C/C++</code> 程序员的公司，在开发游戏的过程中，也不能无视 <code>C/C++</code> 的高级特性和高度灵活性带来的高项目风险。 <code>C/C++</code> 是易学难精的编程语言，在开发大型项目的时候由于程序员的水平参差不齐，所以极易造成沟通不畅。不仅如此， <code>C/C++</code> 滥用的高级特性也容易引入大量bug。正是由于这些原因，游戏公司开始在游戏中使用脚本，希望通过脚本来解决这些高成本、高风险的问题。</p>
+<h2 id="脚本的现状"><a href="#脚本的现状" class="headerlink" title="脚本的现状"></a>脚本的现状</h2><p>脚本不仅解决了 <code>C/C++</code> 无法解决的开发效率难题，还降低了开发的成本和风险。因此脚本技术在游戏业内蓬勃发展起来，并且已经成为游戏业中不可或缺的一环。纵观当前脚本技术现状，形势一片大好，不仅语言百家争鸣，而且书籍种类也越来越多；不仅在游戏业界开花结果，在web等其它应用领域也大放异彩。</p>
+<p>首先，我们来看看目前比较流行的脚本： <code>Python</code> 、 <code>Lua</code> 、 <code>ruby</code> 和 <code>Erlang</code> 。 <code>Python</code> 和 <code>Lua</code> 是网络游戏开发的中坚力量； <code>ruby</code> 凭借 <code>ruby onrails Erlang</code> 在高并发性上的原生优势吸引了无数追求高性能网游服务器的开发人员的目光。</p>
+<p>其次，我们来看看书籍方面。大家都知道，文字对语言的普及起到了催化剂的作用，甚至可以看作是语言的有机组成部分。 <code>Python</code> 经过基金会的多年经营而得到NASA、Google重用的原因，就是由于其相关书籍种类比较丰富； <code>ruby</code> 随着RoR的流行，这两年行情看好，书籍也出版得越来越多了； <code>Erlang</code> 是典型的少众语言，但随着多核时代的来临和高并发网络应用的需求， <code>Erlang</code> 有着光明的发展前景，现在&lt;<programming `erlang`="">&gt;等书也已经在策划出版了；反观 <code>Lua</code> ，虽然目前越来越流行，但由于它晦涩的接口设计和缺乏大型应用的支持，使得相关书籍寥寥无几。</programming></p>
+<p>最后，我们把焦点重新聚集到游戏开发行业中，其实不难发现，除了前文提到的《魔兽世界》和网易经典“西游系列”使用了脚本外，现在大多数比较流行的程序也都使用了脚本，如腾讯的QQgame))和搜狐的《天龙八部》等。不仅如此，现今的游戏引擎也都提供了脚本接口，无论是商业的unreal引擎还是开源的OGRE，无一例外。</p>
+<h2 id="脚本的优势"><a href="#脚本的优势" class="headerlink" title="脚本的优势"></a>脚本的优势</h2><p>脚本之所以能够在游戏业中找到自己的一席之地，是因为网络游戏市场需要一个快速开发方案来避免 <code>C/C++</code> 开发带来的项目高成本和高风险。那么，脚本相对于 <code>C/C++</code> 这类编译型语言到底有什么优势呢?</p>
+<h3 id="易于学习-代码可维护性强"><a href="#易于学习-代码可维护性强" class="headerlink" title="易于学习,代码可维护性强"></a>易于学习,代码可维护性强</h3><p>脚本的语法通常都非常简单，也没有太多高阶的特性，学习的门槛较 <code>C/C++</code> 低得多，比如 <code>Python</code> 可能只需要花一个下午即可学会。这使得游戏开发公司可以招聘完全没有脚本、编程经验的新手，通过低成本的培训，他们便能迅速地走上工作岗位。除易于学习外，脚本代码也有较强的可维护陛(尽管写出没有人看得懂的 <code>Lua</code> 代码也非难事)。因为脚本没有很多高阶特性(如c 里的模板元编程就是高阶特性)，所以脚本程序员就有更多的精力去架构、模式、重用和测试等工作，从而提高了代码的可维护性。相应地，正因为没有那么多让人困惑的高阶特性，也使得脚本代码“简洁”不少。</p>
+<h3 id="降低开发成本"><a href="#降低开发成本" class="headerlink" title="降低开发成本"></a>降低开发成本</h3><p>如上所言，由于脚本易于学习，游戏开发公司可以大量起用新手，这正是降低成本的有效手段。那么如何来确保新手所写代码的质量呢?众所周知，新手无论用什么语言写程序肯定会出现bug，但用 <code>C/C++</code> 和 <code>Python</code> 做比较，可以看出，一个新手用 <code>C/C++</code> 编写出的程序所出现的bug肯定会比用 <code>Python</code> 编写出现的bug要多。由于c程序需要编译，而脚本程序(大部分)都可以直接解释执行，所以在排除bug方面脚本也占有一定的优势，这也使脚本在降低成本的同时能够更好地保证代码质量。</p>
+<h3 id="形成人才壁垒"><a href="#形成人才壁垒" class="headerlink" title="形成人才壁垒"></a>形成人才壁垒</h3><p>软件开发行业是一个颇为动荡的行业，无数的程序员都在跳槽和谋划跳槽的状态中生活，使用脚本开发形成人才壁垒是游戏业减少人才流动的有效手段。因为现在脚本除了在游戏业中非常流行外，并没有在其它行业形成广泛应用(虽然在web开发方面也有燎原之势，但终究不如在游戏业中的地位高)。这就使得游戏程序员很少会考虑非游戏行业的职位，但其它行业的程序员却可能会因为脚本的易学习性而转投游戏业。脚本除了能有效形成行业间的人才壁垒外，也能有效地形成企业间的人才壁垒。由于现有的脚本种类繁多，不同公司往往有不同的选择，甚至有些公司使用自己开发的脚本语言，所以程序员从公司A跳槽到公司B可能要学习使用另一种脚本，这就提高了跳槽的成本，从而减少了人才的流动。</p>
+<h2 id="脚本的发展趋势"><a href="#脚本的发展趋势" class="headerlink" title="脚本的发展趋势"></a>脚本的发展趋势</h2><p>依照目前趋势来看，脚本语言一定会更加的普及，而且会逐渐渗透到其它行业中。随着网络游戏从业人员数量的增长，脚本程序员也一直增加，而且Web2、0热潮引起的网络需求，也促成了一批批新脚本程序员的诞生。网络游戏市场就像一个正在滚动的雪球，推动着脚本的普及。</p>
+<p>随着脚本在游戏业中越来越流行，市场对生产效率的需要也会相应提高。脚本虽然在一定程度上缓解了生产效率与生产工具之间的矛盾，但仍然不够完善。由于市场竞争日趋激烈，而网络游戏在很多功能上的实现又都相差无几，如网络、数据库、图形甚至部分逻辑，这必然会引起网络游戏生产的组装化一一大量中间件相互组合形成新的网络游戏。从目前来看，Bigwofld、PhysX和Unreal等都是比较流行的网络游戏中间件。脚本语言则是粘合各个中间件的良好胶水语言，所以随着网络游戏的生产组装化，脚本将有更大的发展空间。</p>
+<p>那么，当脚本发展到如日中天的时候，可能取代 <code>C/C++</code> 这些编译型语言吗?笔者认为不会。脚本语言和编译型语言在生产效率和执行效率上各擅胜场，网络游戏既需要能快速应变的脚本，也需要能快速执行以提供更绚丽游戏效果的编译型语言。未来，它们之间一定会保持长久的和谐互补关系，相辅相成。</p>
+<p>综上所述，网络游戏时代是上帝赐予脚本语言发展的绝好时机，脚本语言很快将迎来光芒四射的时代。脚本语言拥有编译型语言无可比拟的生产效率优势，所以它们将互补互助并肩奋战在游戏的最前线。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2018-01-18T08:21:57.066Z" itemprop="dateUpdated">2018年01月18日 16:21:57</time>
+</span><br>
+
+
+        
+        本文地址：<a href="/2018/01/18/2018-01-18-about-lua-in-wow/" target="_blank" rel="external">http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/</a><br/>上述内容只表示作者个人观点，如有争议请联系我：<a href="http://denisding.github.io/about" rel="external">http://denisding.github.io/about</a>
+        
+    </div>
+    <footer>
+        <a href="http://denisding.github.io">
+            <img src="/img/avatar.jpg" alt="丁竹">
+            丁竹
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/外挂/">外挂</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/外挂开发/">外挂开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/宏/">宏</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/插件/">插件</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/游戏/">游戏</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/脚本/">脚本</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/转载/">转载</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/魔兽世界/">魔兽世界</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/&title=《浅析 `Lua` 中游戏脚本语言之魔兽世界》 — 熊战天下&pic=http://denisding.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/&title=《浅析 `Lua` 中游戏脚本语言之魔兽世界》 — 熊战天下&source=沧海长河，当怒吼八方，熊战天下" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《浅析 `Lua` 中游戏脚本语言之魔兽世界》 — 熊战天下&url=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/&via=http://denisding.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/01/17/2018-01-17-wow-plugin/" id="post-next" class="post-nav-link">
+        <div class="tips">下一篇 <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">魔兽世界中的插件</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "On4dGg1AthEfkt0IkKRyBeNe-gzGzoHsz",
+            appKey: "DLdKkLKay7N4kTL0GnezBROt",
+            avatar: "mm",
+            placeholder: "说出你心底的秘密吧……",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.png">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>丁竹 &copy; 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/&title=《浅析 `Lua` 中游戏脚本语言之魔兽世界》 — 熊战天下&pic=http://denisding.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/&title=《浅析 `Lua` 中游戏脚本语言之魔兽世界》 — 熊战天下&source=沧海长河，当怒吼八方，熊战天下" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《浅析 `Lua` 中游戏脚本语言之魔兽世界》 — 熊战天下&url=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/&via=http://denisding.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://denisding.github.io/2018/01/18/2018-01-18-about-lua-in-wow/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+lazyScripts.push('//s95.cnzz.com/z_stat.php?id=1272238435&web_id=1272238435')
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼，快点回来！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '我等的花儿也谢了！';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
