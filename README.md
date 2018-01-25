@@ -4,7 +4,7 @@
 
 ## 我的网站地址
 
-[https://blog.baidu.com](https://blog.baidu.com)
+[https://blog.lovelong.cn](https://blog.lovelong.cn)
 
 ## 联系我
 
