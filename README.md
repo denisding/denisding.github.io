@@ -2,6 +2,11 @@
 
 欢迎来我的彩虹小屋，我是你的彩虹兄弟！
 
+## 使用了 Github Pages 的项目
+
+- [个人简介](https://denisding.github.io/)
+- [晨间日记](https://denisding.github.io/morningdiary/)
+
 ## 联系我
 
 如果你有什么想要了解，请直接联系我。
