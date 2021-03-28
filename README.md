@@ -6,6 +6,6 @@
 
 如果你有什么想要了解，请直接联系我。
 
-> QQ: 917577501
-> WeChat: HerbertChina
+> QQ: 917577501\
+> WeChat: HerbertChina\
 > E-mail: yyguangzheng@163.com 或 lovelong@lovelong.cn
