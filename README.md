@@ -6,6 +6,7 @@
 
 - [个人简介](https://denisding.github.io/)
 - [晨间日记](https://denisding.github.io/morningdiary/)
+- [魔兽世界杂货铺](https://denisding.github.io/wowstore/)
 
 ## 联系我
 
